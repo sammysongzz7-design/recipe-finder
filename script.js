@@ -1,30 +1,16 @@
+```javascript
 // ==============================
 // SELECT HTML ELEMENTS
 // ==============================
 
-const searchInput =
-    document.getElementById("searchInput");
-
-const searchButton =
-    document.getElementById("searchBtn");
-
-const recipesContainer =
-    document.getElementById("recipes");
-
-const loading =
-    document.getElementById("loading");
-
-const modal =
-    document.getElementById("recipeModal");
-
-const modalBody =
-    document.getElementById("modalBody");
-
-const closeModal =
-    document.getElementById("closeModal");
- const favouritesContainer =
-    document.getElementById("favourites");
-
+const searchInput = document.getElementById("searchInput");
+const searchButton = document.getElementById("searchBtn");
+const recipesContainer = document.getElementById("recipes");
+const loading = document.getElementById("loading");
+const modal = document.getElementById("recipeModal");
+const modalBody = document.getElementById("modalBody");
+const closeModal = document.getElementById("closeModal");
+const favouritesContainer = document.getElementById("favourites");
 
 // ==============================
 // STORE DATA
@@ -33,10 +19,7 @@ const closeModal =
 let meals = [];
 
 let favourites =
-    JSON.parse(
-        localStorage.getItem("favourites")
-    ) || [];
-
+    JSON.parse(localStorage.getItem("favourites")) || [];
 
 // ==============================
 // SEARCH RECIPES
@@ -44,9 +27,7 @@ let favourites =
 
 async function searchRecipes() {
 
-    const searchText =
-        searchInput.value.trim();
-
+    const searchText = searchInput.value.trim();
 
     // Check empty search
     if (searchText === "") {
@@ -58,29 +39,22 @@ async function searchRecipes() {
         return;
     }
 
-
     // Show loading
     loading.style.display = "block";
-
 
     // Clear old recipes
     recipesContainer.innerHTML = "";
 
-
     try {
 
         const response = await fetch(
-            `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchText}`
+            `https://www.themealdb.com/api/json/v1/1/search.php?s=${encodeURIComponent(searchText)}`
         );
 
-
-        const data =
-            await response.json();
-
+        const data = await response.json();
 
         // Hide loading
         loading.style.display = "none";
-
 
         // No recipes
         if (!data.meals) {
@@ -92,10 +66,8 @@ async function searchRecipes() {
             return;
         }
 
-
         // Store recipes
         meals = data.meals;
-
 
         // Display recipes
         meals.forEach(function (meal) {
@@ -125,7 +97,6 @@ async function searchRecipes() {
                             ${meal.strArea}
                         </p>
 
-
                         <div class="button-group">
 
                             <button
@@ -133,7 +104,6 @@ async function searchRecipes() {
                                 data-id="${meal.idMeal}">
                                 View Recipe
                             </button>
-
 
                             <button
                                 class="fav-btn"
@@ -151,7 +121,6 @@ async function searchRecipes() {
 
         });
 
-
     } catch (error) {
 
         loading.style.display = "none";
@@ -162,11 +131,8 @@ async function searchRecipes() {
         `;
 
         console.error(error);
-
     }
-
 }
-
 
 // ==============================
 // SHOW RECIPE
@@ -174,42 +140,30 @@ async function searchRecipes() {
 
 function showRecipe(meal) {
 
+    if (!meal) {
+        return;
+    }
+
     let ingredients = "";
 
-
     // Get ingredients
-    for (
-        let i = 1;
-        i <= 20;
-        i++
-    ) {
+    for (let i = 1; i <= 20; i++) {
 
-        const ingredient =
-            meal[`strIngredient${i}`];
+        const ingredient = meal[`strIngredient${i}`];
+        const measure = meal[`strMeasure${i}`];
 
-        const measure =
-            meal[`strMeasure${i}`];
-
-
-        if (
-            ingredient &&
-            ingredient.trim() !== ""
-        ) {
+        if (ingredient && ingredient.trim() !== "") {
 
             ingredients += `
                 <li>
-                    ${measure} ${ingredient}
+                    ${measure || ""} ${ingredient}
                 </li>
             `;
-
         }
-
     }
-
 
     // Open modal
     modal.style.display = "flex";
-
 
     // Display recipe
     modalBody.innerHTML = `
@@ -218,59 +172,47 @@ function showRecipe(meal) {
             ${meal.strMeal}
         </h2>
 
-
         <img
             src="${meal.strMealThumb}"
             alt="${meal.strMeal}"
         >
-
 
         <p>
             <strong>Category:</strong>
             ${meal.strCategory}
         </p>
 
-
         <p>
             <strong>Cuisine:</strong>
             ${meal.strArea}
         </p>
 
-
         <h3>
             Ingredients
         </h3>
-
 
         <ul>
             ${ingredients}
         </ul>
 
-
         <h3>
             Instructions
         </h3>
-
 
         <p>
             ${meal.strInstructions}
         </p>
 
     `;
-
 }
 
-
 // ==============================
-// SAVE FAVOURITE
+// DISPLAY FAVOURITES
 // ==============================
 
-function saveFavourite(mealId) {
-
-    function displayFavourites() {
+function displayFavourites() {
 
     favouritesContainer.innerHTML = "";
-
 
     if (favourites.length === 0) {
 
@@ -280,7 +222,6 @@ function saveFavourite(mealId) {
 
         return;
     }
-
 
     favourites.forEach(function (meal) {
 
@@ -332,47 +273,40 @@ function saveFavourite(mealId) {
         `;
 
     });
-
 }
 
-    const meal =
-        meals.find(function (item) {
+// ==============================
+// SAVE FAVOURITE
+// ==============================
 
-            return item.idMeal === mealId;
+function saveFavourite(mealId) {
 
-        });
+    const meal = meals.find(function (item) {
 
+        return item.idMeal === mealId;
+
+    });
 
     if (!meal) {
-
         return;
-
     }
 
-
     // Check if already saved
-    const alreadySaved =
-        favourites.some(function (item) {
+    const alreadySaved = favourites.some(function (item) {
 
-            return item.idMeal === mealId;
+        return item.idMeal === mealId;
 
-        });
-
+    });
 
     if (alreadySaved) {
 
-        alert(
-            "Recipe already in favourites!"
-        );
+        alert("Recipe already in favourites!");
 
         return;
-
     }
-
 
     // Add recipe
     favourites.push(meal);
-
 
     // Save to browser
     localStorage.setItem(
@@ -380,12 +314,16 @@ function saveFavourite(mealId) {
         JSON.stringify(favourites)
     );
 
-
     alert("Recipe saved!");
 
     displayFavourites();
+}
 
-    function removeFavourite(mealId) {
+// ==============================
+// REMOVE FAVOURITE
+// ==============================
+
+function removeFavourite(mealId) {
 
     favourites = favourites.filter(function (meal) {
 
@@ -393,18 +331,13 @@ function saveFavourite(mealId) {
 
     });
 
-
     localStorage.setItem(
         "favourites",
         JSON.stringify(favourites)
     );
 
-
     displayFavourites();
-
 }
-}
-
 
 // ==============================
 // SEARCH BUTTON
@@ -414,7 +347,6 @@ searchButton.addEventListener(
     "click",
     searchRecipes
 );
-
 
 // ==============================
 // ENTER KEY
@@ -433,7 +365,6 @@ searchInput.addEventListener(
     }
 );
 
-
 // ==============================
 // RECIPE BUTTONS
 // ==============================
@@ -441,7 +372,6 @@ searchInput.addEventListener(
 recipesContainer.addEventListener(
     "click",
     function (event) {
-
 
         // View Recipe
         if (
@@ -453,21 +383,15 @@ recipesContainer.addEventListener(
             const mealId =
                 event.target.dataset.id;
 
-
             const selectedMeal =
                 meals.find(function (meal) {
 
-                    return (
-                        meal.idMeal === mealId
-                    );
+                    return meal.idMeal === mealId;
 
                 });
 
-
             showRecipe(selectedMeal);
-
         }
-
 
         // Favourite
         if (
@@ -479,20 +403,22 @@ recipesContainer.addEventListener(
             const mealId =
                 event.target.dataset.id;
 
-
             saveFavourite(mealId);
-
         }
 
     }
 );
+
+// ==============================
+// FAVOURITE BUTTONS
+// ==============================
+
 favouritesContainer.addEventListener(
     "click",
     function (event) {
 
         const mealId =
             event.target.dataset.id;
-
 
         // View favourite
         if (
@@ -508,11 +434,8 @@ favouritesContainer.addEventListener(
 
                 });
 
-
             showRecipe(selectedMeal);
-
         }
-
 
         // Remove favourite
         if (
@@ -522,12 +445,10 @@ favouritesContainer.addEventListener(
         ) {
 
             removeFavourite(mealId);
-
         }
 
     }
 );
-
 
 // ==============================
 // CLOSE MODAL
@@ -541,7 +462,6 @@ closeModal.addEventListener(
 
     }
 );
-
 
 // ==============================
 // CLICK OUTSIDE MODAL
@@ -559,3 +479,10 @@ window.addEventListener(
 
     }
 );
+
+// ==============================
+// LOAD FAVOURITES
+// ==============================
+
+displayFavourites();
+```
