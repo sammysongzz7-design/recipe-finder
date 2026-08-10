@@ -1,4 +1,4 @@
-```javascript
+
 // ==============================
 // SELECT HTML ELEMENTS
 // ==============================
@@ -485,4 +485,3 @@ window.addEventListener(
 // ==============================
 
 displayFavourites();
-```
