@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -13,23 +13,23 @@
 
 </head>
 
-<body>
-
+<body> -->
+<!--  -->
     <!-- HEADER -->
-    <header>
+    <!-- <header>
 
-        <h1>🍽️ Recipe Finder</h1>
+        <h1>🍽️ WHAT DO YOU WANT TO EAT?</h1>
 
         <p>Find delicious recipes in seconds!</p>
 
-    </header>
+    </header> -->
 
 
     <!-- MAIN CONTENT -->
-    <main>
+    <!-- <main> -->
 
         <!-- SEARCH -->
-        <section class="search-container">
+        <!-- <section class="search-container">
 
             <input
                 type="text"
@@ -41,19 +41,19 @@
                 Search
             </button>
 
-        </section>
+        </section> -->
 
 
         <!-- LOADING -->
-        <div id="loading" class="loading">
+        <!-- <div id="loading" class="loading">
 
             👨‍🍳 Finding delicious recipes...
 
-        </div>
+        </div> -->
 
 
         <!-- RECIPES -->
-        <section
+        <!-- <section
             class="recipes"
             id="recipes">
         </section>
@@ -68,11 +68,11 @@
     </section>
 
 </section>
-    </main>
+    </main> -->
 
 
     <!-- RECIPE MODAL -->
-    <div
+    <!-- <div
         class="modal"
         id="recipeModal">
 
@@ -93,12 +93,368 @@
 
         </div>
 
-    </div>
+    </div> -->
 
 
     <!-- JAVASCRIPT -->
+    <!-- <script src="script.js"></script>
+
+</body>
+
+</html> -->
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Naija Bites | Nigerian Recipe Finder</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- =========================
+         HEADER
+    ========================== -->
+
+    <header class="site-header">
+
+        <nav class="navbar">
+
+            <a href="#" class="logo">
+                <span class="logo-icon">🍲</span>
+                <span>Naija<span class="logo-accent">Bites</span></span>
+            </a>
+
+            <button
+                id="themeBtn"
+                class="theme-btn"
+                aria-label="Toggle dark mode">
+                🌙
+            </button>
+
+        </nav>
+
+
+        <div class="hero">
+
+            <div class="hero-content">
+
+                <span class="hero-badge">
+                    🇳🇬 NIGERIAN RECIPE FINDER
+                </span>
+
+                <h1>
+                    Discover food you'll
+                    <span>love to cook.</span>
+                </h1>
+
+                <p>
+                    Search delicious recipes, discover new dishes,
+                    plan your meals and cook with confidence.
+                </p>
+
+                <div class="search-container">
+
+                    <input
+                        type="text"
+                        id="searchInput"
+                        placeholder="Search for jollof rice, pasta, chicken..."
+                        autocomplete="off">
+
+                    <button id="searchBtn">
+                        Search
+                    </button>
+
+                </div>
+
+                <button
+                    id="clearSearchBtn"
+                    class="browse-btn">
+                    Browse all recipes
+                </button>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================
+         MAIN
+    ========================== -->
+
+    <main class="main-content">
+
+
+        <!-- =========================
+             QUICK STATS
+        ========================== -->
+
+        <section class="quick-stats">
+
+            <div class="stat-card">
+
+                <span class="stat-icon">🍽️</span>
+
+                <div>
+                    <strong id="totalRecipes">
+                        —
+                    </strong>
+
+                    <p>Recipes</p>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span class="stat-icon">❤️</span>
+
+                <div>
+                    <strong id="totalFavourites">
+                        0
+                    </strong>
+
+                    <p>Favourites</p>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span class="stat-icon">📅</span>
+
+                <div>
+                    <strong id="plannedMeals">
+                        0
+                    </strong>
+
+                    <p>Planned meals</p>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             WHAT'S IN MY KITCHEN
+        ========================== -->
+
+        <section class="feature-section kitchen-section">
+
+            <div class="section-heading">
+
+                <span class="section-label">
+                    SMART SEARCH
+                </span>
+
+                <h2>
+                    What's in your kitchen?
+                </h2>
+
+                <p>
+                    Add ingredients you already have and discover
+                    recipes you can make with them.
+                </p>
+
+            </div>
+
+
+            <div class="ingredient-input-row">
+
+                <input
+                    type="text"
+                    id="ingredientInput"
+                    placeholder="e.g. rice, chicken, tomatoes">
+
+                <button
+                    id="addIngredientBtn"
+                    class="secondary-btn">
+                    + Add
+                </button>
+
+            </div>
+
+
+            <div
+                id="ingredientTags"
+                class="ingredient-tags">
+            </div>
+
+
+            <button
+                id="findKitchenRecipesBtn"
+                class="primary-btn">
+                Find recipes
+            </button>
+
+        </section>
+
+
+        <!-- =========================
+             RESULTS HEADER
+        ========================== -->
+
+        <section class="results-header">
+
+            <div>
+
+                <span
+                    class="section-label"
+                    id="resultsEyebrow">
+                    RECOMMENDED FOR YOU
+                </span>
+
+                <h2 id="resultsTitle">
+                    Discover recipes
+                </h2>
+
+                <p id="resultsDescription">
+                    Explore recipes and find your next favourite meal.
+                </p>
+
+            </div>
+
+
+            <span
+                id="recipeCount"
+                class="recipe-count">
+                Loading...
+            </span>
+
+        </section>
+
+
+        <!-- =========================
+             LOADING
+        ========================== -->
+
+        <div
+            id="loading"
+            class="loading-state">
+
+            <div class="spinner"></div>
+
+            <p>Finding delicious recipes...</p>
+
+        </div>
+
+
+        <!-- =========================
+             RECIPES
+        ========================== -->
+
+        <section
+            class="recipes"
+            id="recipes">
+        </section>
+
+
+        <!-- =========================
+             FAVOURITES
+        ========================== -->
+
+        <section class="page-section">
+
+            <div class="section-heading">
+
+                <span class="section-label">
+                    SAVED RECIPES
+                </span>
+
+                <h2>
+                    ❤️ My Favourites
+                </h2>
+
+                <p>
+                    Recipes you've saved for later.
+                </p>
+
+            </div>
+
+
+            <section
+                class="recipes"
+                id="favourites">
+            </section>
+
+        </section>
+
+
+        <!-- =========================
+             MEAL PLANNER
+        ========================== -->
+
+        <section class="page-section">
+
+            <div class="section-heading">
+
+                <span class="section-label">
+                    PLAN AHEAD
+                </span>
+
+                <h2>
+                    📅 My Meal Planner
+                </h2>
+
+                <p>
+                    Organise your meals throughout the week.
+                </p>
+
+            </div>
+
+
+            <div
+                id="mealPlanner"
+                class="meal-planner">
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================
+         MODAL
+    ========================== -->
+
+    <div
+        id="recipeModal"
+        class="modal">
+
+        <div class="modal-content">
+
+            <button
+                id="closeModal"
+                class="close-btn"
+                aria-label="Close">
+                ×
+            </button>
+
+            <div id="modalBody"></div>
+
+        </div>
+
+    </div>
+
+
     <script src="script.js"></script>
 
 </body>
 
 </html>
+
