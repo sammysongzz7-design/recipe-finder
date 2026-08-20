@@ -6,21 +6,6 @@
 
 
 // ==========================================
-// OPTIONAL NIFODA API CONFIGURATION
-// ==========================================
-
-
-
-const USE_NIFODA_API = false;
-
-const NIFODA_CONFIG = {
-    baseURL: "",
-    apiKey: "",
-    searchPath: ""
-};
-
-
-// ==========================================
 // WIKIMEDIA COMMONS IMAGE HELPER
 // ==========================================
 
@@ -2005,149 +1990,10 @@ function displayRecommendedRecipes() {
 
 
 // ==========================================
-// OPTIONAL NIFODA SEARCH
-// ==========================================
-
-async function searchNifodaAPI(
-    searchTerm
-) {
-
-    if (
-        !USE_NIFODA_API ||
-        !NIFODA_CONFIG.baseURL ||
-        !NIFODA_CONFIG.searchPath
-    ) {
-
-        return [];
-
-    }
-
-
-    const url =
-        `${NIFODA_CONFIG.baseURL}` +
-        `${NIFODA_CONFIG.searchPath}` +
-        `?q=${encodeURIComponent(searchTerm)}`;
-
-
-    const response =
-        await fetch(
-            url,
-            {
-                headers: {
-
-                    Authorization:
-                        `Bearer ${NIFODA_CONFIG.apiKey}`,
-
-                    "Content-Type":
-                        "application/json"
-
-                }
-
-            }
-        );
-
-
-    if (!response.ok) {
-
-        throw new Error(
-            `NIFODA request failed: ${response.status}`
-        );
-
-    }
-
-
-    const data =
-        await response.json();
-
-
-    return normalizeNifodaResults(
-        data
-    );
-
-}
-
-
-// ==========================================
-// NIFODA RESULT NORMALIZER
-// ==========================================
-
-function normalizeNifodaResults(
-    data
-) {
-
-    if (
-        !data ||
-        !Array.isArray(
-            data.recipes
-        )
-    ) {
-
-        return [];
-
-    }
-
-
-    return data.recipes.map(
-        function (recipe) {
-
-            return {
-
-                id:
-                    String(
-                        recipe.id
-                    ),
-
-                name:
-                    recipe.name ||
-                    "Nigerian Recipe",
-
-                category:
-                    recipe.category ||
-                    "Nigerian Dish",
-
-                area:
-                    "Nigeria",
-
-                image:
-                    recipe.image ||
-                    "",
-
-                description:
-                    recipe.description ||
-                    "A delicious Nigerian recipe.",
-
-                baseServings:
-                    Number(
-                        recipe.servings
-                    ) || 2,
-
-                ingredients:
-                    Array.isArray(
-                        recipe.ingredients
-                    )
-                        ? recipe.ingredients
-                        : [],
-
-                steps:
-                    Array.isArray(
-                        recipe.steps
-                    )
-                        ? recipe.steps
-                        : []
-
-            };
-
-        }
-    );
-
-}
-
-
-// ==========================================
 // SEARCH
 // ==========================================
 
-async function searchRecipes() {
+function searchRecipes() {
 
     const searchTerm =
         searchInput.value
@@ -2183,42 +2029,10 @@ async function searchRecipes() {
 
     try {
 
-        let results = [];
-
-
-        if (
-            USE_NIFODA_API
-        ) {
-
-            try {
-
-                results =
-                    await searchNifodaAPI(
-                        searchTerm
-                    );
-
-            } catch (apiError) {
-
-                console.warn(
-                    "NIFODA unavailable. Using local Nigerian recipes.",
-                    apiError
-                );
-
-            }
-
-        }
-
-
-        if (
-            results.length === 0
-        ) {
-
-            results =
-                searchLocalNigerianRecipes(
-                    searchTerm
-                );
-
-        }
+        const results =
+            searchLocalNigerianRecipes(
+                searchTerm
+            );
 
 
         currentRecipes =
@@ -2229,16 +2043,21 @@ async function searchRecipes() {
             results
         );
 
-    } catch (error) {
+    }
+
+    catch (error) {
 
         console.error(error);
+
 
         showError(
             "Search failed",
             "Something went wrong. Please try again."
         );
 
-    } finally {
+    }
+
+    finally {
 
         setLoading(false);
 
