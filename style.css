@@ -1,5 +1,3 @@
-
-
 * {
     margin: 0;
     padding: 0;
@@ -113,6 +111,19 @@ img {
 
 
 /* ==============================
+   ACCESSIBILITY — visible keyboard focus
+============================== */
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+
+/* ==============================
    HEADER
 ============================== */
 
@@ -165,7 +176,7 @@ img {
             rgba(10, 10, 10, 0.30) 45%,
             rgba(10, 10, 10, 0.18) 100%
         ),
-        url("https://commons.wikimedia.org/wiki/Special:Redirect/file/Nigerian_cuisine_banner.jpg")
+        url("https://wallpaperaccess.com/full/2305227.jpg")
         center / cover no-repeat;
 
     min-height: 620px;
