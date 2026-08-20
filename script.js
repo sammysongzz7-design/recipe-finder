@@ -186,7 +186,7 @@ const nigerianRecipes = [
 
         image:
             commonsImage(
-                "Nigerian jollof rice.jpg"
+                "Nigerian Jollof Rice.jpg"
             ),
 
         description:
@@ -242,7 +242,7 @@ const nigerianRecipes = [
                 name: "Thyme",
                 quantity: 1,
                 unit: "teaspoon"
-            },
+            }, 
 
             {
                 name: "Salt",
